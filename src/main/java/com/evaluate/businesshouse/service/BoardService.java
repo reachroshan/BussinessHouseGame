@@ -30,7 +30,7 @@ public class BoardService {
         AtomicInteger counter = new AtomicInteger(1);
         Map<Integer, Cell> cells = Arrays.stream(cellPatternString.split(","))
                 .map(s ->{
-                    switch (s){
+                    switch (s.toUpperCase()){
                         case "J" : return new Jail();
                         case "H" : return new Hotel();
                         case "L" : return new Lottery();
