@@ -7,11 +7,13 @@ import com.evaluate.businesshouse.model.actor.Player;
 import com.evaluate.businesshouse.util.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
+@Slf4j
 public class Hotel extends CellWithRule {
 
     private Player owner;
@@ -24,6 +26,8 @@ public class Hotel extends CellWithRule {
     @Override
     public void applyCellRule(Player visitingPlayer) {
 
+      log.debug("Player {} is on cell of type hotel {}. It is Owned by {}", visitingPlayer.getUserId(), this.getHotelType().getType(),
+              (null != this.owner)?this.owner.getUserId(): "none");
         if(null == this.owner){ // For a new visit to hotel type cell
 
             //When the user lands on hotel and has required money, he has to buy it by paying the bank the required money to buy a silver hotel

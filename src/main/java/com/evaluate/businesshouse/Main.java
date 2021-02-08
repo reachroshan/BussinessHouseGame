@@ -2,13 +2,11 @@ package com.evaluate.businesshouse;
 
 
 import com.evaluate.businesshouse.exception.IncorrectInputException;
+import com.evaluate.businesshouse.service.GameService;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,12 +19,17 @@ public class Main {
         
        String inFile= "";
         if (0 < args.length) {
-             inFile = args[0];
+             inFile = args[0].trim();
+             if(inFile.isEmpty()){
+                 throw new IncorrectInputException("Please provide a valid inout file name");
+             }
         }
-//TODO : add validation
+
+
+        //TODO : add validation
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         // read as a file
-        File file = new File(classloader.getResource(inFile).getFile());
+        File file = new File(classloader.getResource("Input1.txt").getFile());
         Map<String, String> inputData;
         //read file into stream, try-with-resources
         try (Stream<String> stream = Files.lines(file.toPath())) {

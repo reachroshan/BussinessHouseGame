@@ -1,4 +1,4 @@
-package com.evaluate.businesshouse;
+package com.evaluate.businesshouse.service;
 
 import com.evaluate.businesshouse.exception.IncorrectInputException;
 import com.evaluate.businesshouse.model.Game;
@@ -6,6 +6,7 @@ import com.evaluate.businesshouse.model.actor.Bank;
 import com.evaluate.businesshouse.model.actor.Player;
 import com.evaluate.businesshouse.model.board.Dice;
 import com.evaluate.businesshouse.util.BusinessUtil;
+import lombok.extern.slf4j.Slf4j;
 
 
 import java.util.Comparator;
@@ -13,16 +14,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class GameService {
 
 
     public Game playGame(String diceOutput, String cellPatternString, Integer numberOfPlayers) throws IncorrectInputException {
 
+        log.info("Starting the game for {} players", numberOfPlayers);
         BusinessUtil.validateInput(diceOutput,  cellPatternString, numberOfPlayers);
 
         Game game = initializeGame(diceOutput,  cellPatternString, numberOfPlayers);
         game.play();
         declareResult(game);
+
+        log.info("Game is complete! It was fun");
 
         return game;
 
@@ -38,6 +43,7 @@ public class GameService {
      */
     private Game initializeGame(String diceOutput, String cellPatternString, Integer numberOfPlayers){
 
+        log.debug("Initializing game for {} players with cell patterns {}", numberOfPlayers, cellPatternString);
         Game game = new Game();
         game.setBoard(BoardService.buildTheBoard(cellPatternString));
         game.setDice(buildPlayerDiceRoll(diceOutput));
@@ -47,6 +53,8 @@ public class GameService {
             player.setUserId(iterator);
             game.getPlayers().add(player);
         }
+
+        log.info("Initialization is complete");
 
         return game;
     }
@@ -70,14 +78,17 @@ public class GameService {
      */
     private void declareResult(Game game){
 
-        System.out.println("Game is complete");
+        log.info("**********************************************************");
+        log.info("*********************** Result is  ***********************");
         int playerNumber = 0;
         for(Player player: game.getPlayers()){
             playerNumber++;
-            System.out.println("Player "+ playerNumber +" has total money :"+ player.getWallet());
+            log.info("Player {} has total money : {}", playerNumber, player.getWallet());
+
         }
-        System.out.println("Balance at Bank: "+ Bank.getBankCash());
-        System.out.println("Winner is " + decideTheWinner(game).getUserId());
+        log.info("Balance at Bank: {} ", Bank.getBankCash());
+        //log.info("Winner is of this {}" + decideTheWinner(game).getUserId());
+
     }
 
     /**
@@ -87,6 +98,8 @@ public class GameService {
      */
     private Player decideTheWinner(Game game){
 
+
+        //TODO : Multi player winners
         return game.getPlayers()
                 .stream()
                 .max(Comparator.comparing(Player::getWallet)).get();

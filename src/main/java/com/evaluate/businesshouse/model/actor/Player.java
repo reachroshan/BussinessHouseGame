@@ -4,6 +4,7 @@ import com.evaluate.businesshouse.model.board.cell.Hotel;
 import com.evaluate.businesshouse.util.Constants;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Slf4j
 public class Player extends User {
 
     private int currentBoardPosition;
@@ -31,7 +33,7 @@ public class Player extends User {
     public void debitAccount(BigDecimal debitAmount){
         if(this.getWallet().compareTo(debitAmount) < 0){
             //TODO Handle exception
-            System.out.println("User "+ this.getUserId() +" Ran out of money. he is out of the game!!!");
+           log.warn("User {} Ran out of money. We got to think what to do now ??", this.getUserId() );
         }else{
             BigDecimal newWalletAmount = this.getWallet().subtract(debitAmount);
             this.setWallet(newWalletAmount);

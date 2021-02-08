@@ -3,6 +3,7 @@ package com.evaluate.businesshouse;
 import com.evaluate.businesshouse.exception.IncorrectInputException;
 import com.evaluate.businesshouse.model.Game;
 import com.evaluate.businesshouse.model.actor.Player;
+import com.evaluate.businesshouse.service.GameService;
 import org.junit.Before;
 import org.junit.Test;
 

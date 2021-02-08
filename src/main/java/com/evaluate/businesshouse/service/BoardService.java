@@ -1,4 +1,4 @@
-package com.evaluate.businesshouse;
+package com.evaluate.businesshouse.service;
 
 import com.evaluate.businesshouse.model.board.Board;
 import com.evaluate.businesshouse.model.board.cell.Cell;
@@ -26,6 +26,7 @@ public class BoardService {
     public static Board buildTheBoard(String cellPatternString){
 
 
+        log.info("Building the Board for cell Pattern {}", cellPatternString);
         AtomicInteger counter = new AtomicInteger(1);
         Map<Integer, Cell> cells = Arrays.stream(cellPatternString.split(","))
                 .map(s ->{
